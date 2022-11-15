@@ -1,6 +1,7 @@
 package com.illia.finalproject
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,31 +19,35 @@ import retrofit2.Retrofit
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var txtView : TextView
+    private lateinit var doRequestButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        println("start")
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        testInternet()
-    }
 
-    private fun testInternet(){
-        println("testInternet")
-        val retrofit = MyRetrofitClient.getInstance()
+        txtView = binding.txtView
+        doRequestButton = binding.doRequestButton
 
-        val apiApi = retrofit.create(ApiApi::class.java)
-
-        lifecycleScope.launch {
-            val response  = apiApi.getSmth()
-            if (response.isSuccessful){
-                println(response.headers())
-                println(response.message())
-            }else {
-                println("error")
+        doRequestButton.setOnClickListener{
+            val retrofit = MyRetrofitClient.getInstance()
+            val apiApi = retrofit.create(ApiApi::class.java)
+            lifecycleScope.launch {
+                val response  = apiApi.getForecast()
+                if (response.isSuccessful){
+                    println(response.headers())
+                    var resp = response.body();
+                    println(resp.toString())
+                    txtView.setText(resp?.getForecastForDays(1) ?: "Unresolvable")
+                }else {
+                    println("error")
+                }
             }
         }
-
     }
+
 
 }

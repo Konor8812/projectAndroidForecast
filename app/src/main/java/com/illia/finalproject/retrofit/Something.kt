@@ -17,4 +17,9 @@ class Something(
     fun getNumberFromSomething() : Int{
         return number
     }
+
+
+    override fun toString(): String {
+        return "Entity called $name has number: $number"
+    }
 }
