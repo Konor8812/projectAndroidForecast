@@ -29,24 +29,24 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        txtView = binding.txtView
-        doRequestButton = binding.doRequestButton
+//        txtView = binding.txtView
+//        doRequestButton = binding.doRequestButton
 
-        doRequestButton.setOnClickListener{
-            val retrofit = MyRetrofitClient.getInstance()
-            val apiApi = retrofit.create(ApiApi::class.java)
-            lifecycleScope.launch {
-                val response  = apiApi.getForecast()
-                if (response.isSuccessful){
-                    println(response.headers())
-                    var resp = response.body();
-                    println(resp.toString())
-                    txtView.setText(resp?.getForecastForDays(1) ?: "Unresolvable")
-                }else {
-                    println("error")
-                }
-            }
-        }
+//        doRequestButton.setOnClickListener{
+//            val retrofit = MyRetrofitClient.getInstance()
+//            val apiApi = retrofit.create(ApiApi::class.java)
+//            lifecycleScope.launch {
+//                val response  = apiApi.getForecast()
+//                if (response.isSuccessful){
+//                    println(response.headers())
+//                    var resp = response.body();
+//                    println(resp.toString())
+//                    txtView.setText(resp?.getForecastForDays(1) ?: "Unresolvable")
+//                }else {
+//                    println("error")
+//                }
+//            }
+//        }
     }
 
 
