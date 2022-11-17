@@ -5,18 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.illia.finalproject.databinding.HomeFragmentBinding
 import com.illia.finalproject.model.ForecastAdapter
 import com.illia.finalproject.model.WeatherForecastDTO
-import java.util.*
-import kotlin.random.Random
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
     private var _binding: HomeFragmentBinding? = null
 
-//    lateinit var valuesList: List<WeatherForecastDTO>
+    lateinit var valuesList: List<WeatherForecastDTO>
+
+    lateinit var viewModel: MyViewModel
 
     var items = listOf(
         WeatherForecastDTO(
@@ -43,7 +46,7 @@ class HomeFragment : Fragment() {
     private val adapter = ForecastAdapter { pos ->
         findNavController().navigate(
             HomeFragmentDirections
-                .actionHomeFragmentToFullInfoFragment(items[pos])
+                .actionHomeFragmentToFullInfoFragment(valuesList[pos])
         )
     }
 
@@ -61,21 +64,42 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-
+        viewModel = ViewModelProvider(this).get(MyViewModel::class.java)
 
         println("home fragment created")
-        val swipeRefreshLayout = binding.homeFragment
+        val swipeRefreshLayout = binding.swipeRefreshLayout
         val recycleView = binding.recyclerView
+        val searchButton = binding.searchButton
 
         recycleView.adapter = adapter
 
-        adapter.setList(items)
+        searchButton.setOnClickListener {
+            viewModel.viewModelScope.launch {
+                var lat = binding.paramFieldLat.text.toString()
+                var lon = binding.paramFieldLon.text.toString()
+                var nod = binding.paramFieldNOD.text.toString()
+
+                valuesList = viewModel.requestDataFromDb(lat, lon, nod)
+                println("values accepted: " + valuesList.size)
+                adapter.setList(valuesList)
+            }
+
+        }
+
+
+
 
         swipeRefreshLayout.setOnRefreshListener {
-            items = items.reversed()
-            adapter.setList(items)
+            viewModel.viewModelScope.launch {
+//                valuesList = viewModel.requestDataFromDb(0.0, 0.0)
+                println("values accepted: " + valuesList.size)
+
+
+            }
+
+            adapter.setList(valuesList)
             swipeRefreshLayout.isRefreshing = false
+
         }
 
         super.onViewCreated(view, savedInstanceState)

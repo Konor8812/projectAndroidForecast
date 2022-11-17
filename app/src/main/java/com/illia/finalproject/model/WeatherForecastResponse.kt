@@ -75,6 +75,14 @@ class WeatherForecastResponse(
         return "Forecast for $city $sb"
     }
 
+    /**
+     * search db?? ->
+     * 2022-11-19
+     * ignore results before next day 00.00
+     * after that parse into full-day info using gson.toJson()
+     * save to db
+     */
+
     public fun parseIntoDTO(): List<WeatherForecastDTO> {
         val values = mutableListOf<WeatherForecastDTO>()
 

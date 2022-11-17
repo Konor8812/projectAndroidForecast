@@ -24,4 +24,5 @@
             android:name="wfDTO"
             app:argType="com.illia.finalproject.model.WeatherForecastDTO" />
     </fragment>
+
 </navigation>

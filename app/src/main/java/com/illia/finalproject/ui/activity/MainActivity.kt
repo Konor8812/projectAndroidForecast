@@ -1,25 +1,24 @@
-package com.illia.finalproject
+package com.illia.finalproject.ui.activity
 
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.lifecycle.viewModelScope
+import androidx.room.Room
+import com.illia.finalproject.database.WeatherForecastDatabase
 import com.illia.finalproject.databinding.ActivityMainBinding
-import com.illia.finalproject.retrofit.ApiApi
-import com.illia.finalproject.retrofit.MyRetrofitClient
+import com.illia.finalproject.ui.fragment.MyViewModel
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var txtView : TextView
+    private lateinit var txtView: TextView
     private lateinit var doRequestButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {

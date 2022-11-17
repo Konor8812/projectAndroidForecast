@@ -1,4 +1,4 @@
-package com.illia.finalproject.retrofit
+package com.illia.finalproject.data.retrofit
 
 import com.illia.finalproject.interceptor.MyInterceptor
 import okhttp3.OkHttpClient
