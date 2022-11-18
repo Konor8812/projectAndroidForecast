@@ -11,8 +11,8 @@ import com.illia.finalproject.data.model.WeatherForecast
 interface WeatherForecastDAO {
 
     @Query("select * from weatherforecast where date between :timestamp and :timestamp+:nod " +
-            "and latitude between :latitude-2 and :latitude+2 " +
-            "and longitude between :longitude-2 and :longitude+2 ")
+            "and latitude between :latitude-1 and :latitude+1 " +
+            "and longitude between :longitude-1 and :longitude+1 ")
     fun getForecastFromNow(timestamp:Long, latitude: Double, longitude : Double, nod: Int) : List<WeatherForecast>
 
     @Insert

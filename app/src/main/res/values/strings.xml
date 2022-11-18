@@ -4,7 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="invalid_data">Invalid data!</string>
-    <string name="latitude">Latitude</string>
-    <string name="longitude">Longitude</string>
-    <string name="days_amount">Days</string>
+    <string name="latitude">latitude</string>
+    <string name="longitude">longitude</string>
+    <string name="days_amount">days</string>
 </resources>
