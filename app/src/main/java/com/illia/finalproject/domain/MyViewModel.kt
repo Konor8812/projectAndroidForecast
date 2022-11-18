@@ -1,12 +1,12 @@
-package com.illia.finalproject.ui.fragment
+package com.illia.finalproject.domain
 
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import com.illia.finalproject.model.WeatherForecastDTO
+import com.illia.finalproject.data.model.WeatherForecastDTO
 import com.illia.finalproject.data.retrofit.OpenWeatherMapApi
 import com.illia.finalproject.data.retrofit.MyRetrofitClient
 import com.illia.finalproject.data.database.WeatherForecastDatabase
-import com.illia.finalproject.model.WeatherForecastResponse
+import com.illia.finalproject.data.model.WeatherForecastResponse
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -29,7 +29,7 @@ class MyViewModel : ViewModel() {
         if (validateCoordinates(latitude, longitude, nod)
         ) {
             try {
-                var numOfDaysToSearch = nod.toInt()
+                val numOfDaysToSearch = nod.toInt()
                 val lat = latitude.toDouble()
                 val lon = longitude.toDouble()
 
@@ -80,7 +80,7 @@ class MyViewModel : ViewModel() {
             GlobalScope.launch {
                 val lat = latitude.toDouble()
                 val lon = longitude.toDouble()
-                var numOfDaysToSearch = nod.toInt()
+                val numOfDaysToSearch = nod.toInt()
 
                 val response = openWeatherMapApi.getForecast(lat, lon)
                 if (response.isSuccessful) {

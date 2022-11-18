@@ -30,7 +30,6 @@ class FullInfoFragment : Fragment(){
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        println("full info fragment created")
         val argument = args.wfDTO
 
         binding.fullDescriptionTextView.setText(argument.fullDescription)

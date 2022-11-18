@@ -1,4 +1,4 @@
-package com.illia.finalproject.model
+package com.illia.finalproject.data.model
 
 import java.io.Serializable
 

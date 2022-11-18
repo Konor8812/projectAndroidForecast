@@ -1,4 +1,4 @@
-package com.illia.finalproject.model
+package com.illia.finalproject.data.model
 
 import android.database.sqlite.SQLiteConstraintException
 import com.google.gson.Gson
@@ -63,11 +63,11 @@ class WeatherForecastResponse(
         }
     }
 
-    public fun getForecastForDays(nod: Int): String {
+     fun getForecastForDays(nod: Int): String {
         var sb: StringBuilder = StringBuilder()
 
         for (i in 0..nod * 8) {
-//            val weatherEntity = // DATABASE REFERENCE ?
+
             val record = weatherList.get(i)
             sb.append(record.dateTime).append("\n")
                 .append(record).append("\n")
@@ -77,7 +77,7 @@ class WeatherForecastResponse(
     }
 
 
-    public fun parseResponse(nod :Int): List<WeatherForecastDTO> {
+     fun parseResponse(nod :Int): List<WeatherForecastDTO> {
         val values = mutableListOf<WeatherForecastDTO>()
         val gson = Gson()
         val weatherForecastDatabase = WeatherForecastDatabase.getInstance()

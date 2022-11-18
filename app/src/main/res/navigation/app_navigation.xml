@@ -22,7 +22,7 @@
             app:destination="@id/homeFragment" />
         <argument
             android:name="wfDTO"
-            app:argType="com.illia.finalproject.model.WeatherForecastDTO" />
+            app:argType="com.illia.finalproject.data.model.WeatherForecastDTO" />
     </fragment>
 
 </navigation>

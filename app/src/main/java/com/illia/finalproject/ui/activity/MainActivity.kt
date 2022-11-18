@@ -2,7 +2,6 @@ package com.illia.finalproject.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
 import com.illia.finalproject.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

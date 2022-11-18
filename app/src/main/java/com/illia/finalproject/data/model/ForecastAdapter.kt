@@ -1,4 +1,4 @@
-package com.illia.finalproject.model
+package com.illia.finalproject.data.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,12 +11,12 @@ RecyclerView.Adapter<ForecastAdapter.ForecastHolder>() {
 
     private val values = ArrayList<WeatherForecastDTO>()
 
-    public fun clearValues(){
+     fun clearValues(){
         values.clear()
     }
 
 
-    public fun setList(list: List<WeatherForecastDTO>){
+     fun setList(list: List<WeatherForecastDTO>){
         values.clear()
         values.addAll(list)
         notifyDataSetChanged()
@@ -39,8 +39,6 @@ RecyclerView.Adapter<ForecastAdapter.ForecastHolder>() {
                 .load(url)
                 .centerCrop()
                 .placeholder(itemBinding.imagePlaceholder.drawable)
-//                .error(R.drawable.ic_launcher_foreground)
-//                .fallback(R.drawable.ic_launcher_foreground)
                 .into(itemBinding.imagePlaceholder)
             itemBinding.previewPlaceholder.setText(content)
         }

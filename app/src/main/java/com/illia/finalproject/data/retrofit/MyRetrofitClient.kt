@@ -1,6 +1,6 @@
 package com.illia.finalproject.data.retrofit
 
-import com.illia.finalproject.interceptor.MyInterceptor
+import com.illia.finalproject.data.retrofit.interceptor.MyInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.illia.finalproject.model.WeatherForecast
+import com.illia.finalproject.data.model.WeatherForecast
 
 
 @Dao

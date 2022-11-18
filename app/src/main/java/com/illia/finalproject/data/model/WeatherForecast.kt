@@ -1,8 +1,7 @@
-package com.illia.finalproject.model
+package com.illia.finalproject.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
 @Entity(primaryKeys = ["date", "latitude", "longitude"])
 data class WeatherForecast(

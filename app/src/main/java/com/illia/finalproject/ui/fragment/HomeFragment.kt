@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
+import com.illia.finalproject.R
 import com.illia.finalproject.databinding.HomeFragmentBinding
-import com.illia.finalproject.model.ForecastAdapter
-import com.illia.finalproject.model.WeatherForecastDTO
+import com.illia.finalproject.data.model.ForecastAdapter
+import com.illia.finalproject.data.model.WeatherForecastDTO
+import com.illia.finalproject.domain.MyViewModel
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
@@ -21,26 +23,6 @@ class HomeFragment : Fragment() {
 
     lateinit var viewModel: MyViewModel
 
-//    var items = listOf(
-//        WeatherForecastDTO(
-//            "for 2022-11-09 15:00:00\n",
-//
-//            "cloudy",
-//            "https://i.pinimg.com/originals/ab/00/0f/ab000f469819dd7ef2a7e427e15305ff.jpg"
-//        ),
-//        WeatherForecastDTO(
-//            "for 2022-11-09 18:00:00\n",
-//
-//            "snowy",
-//            "https://st.depositphotos.com/1297731/3381/i/450/depositphotos_33816641-stock-photo-christmas-background-with-snowy-firs.jpg"
-//        ),
-//        WeatherForecastDTO(
-//            "for 2022-11-09 21:00:00\n",
-//
-//            "rainy",
-//            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8Wzj7v4JaP1S2YJ-lb51fPmtt4nR3YJQoNw&usqp=CAU"
-//        )
-//    )
 
 
     private val adapter = ForecastAdapter { pos ->
@@ -82,7 +64,7 @@ class HomeFragment : Fragment() {
 
                 if(valuesList.isEmpty()){
                     adapter.clearValues()
-                    binding.locationPlaceholder.setText("Invalid data!")
+                    binding.locationPlaceholder.setText(R.string.invalid_data)
                 }else {
                     val location = valuesList.get(0).city ?: "Unknown"
                     binding.locationPlaceholder.setText(location.ifEmpty { "Unknown" })
@@ -101,7 +83,7 @@ class HomeFragment : Fragment() {
 
                 if(valuesList.isEmpty()){
                     adapter.clearValues()
-                    binding.locationPlaceholder.setText("Invalid data!")
+                    binding.locationPlaceholder.setText(R.string.invalid_data)
                 }else {
                     val location = valuesList.get(0).city.toString()
                     binding.locationPlaceholder.setText(location.ifEmpty { "Unknown" })

@@ -3,7 +3,7 @@ package com.illia.finalproject.data.database
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.illia.finalproject.model.WeatherForecast
+import com.illia.finalproject.data.model.WeatherForecast
 import com.illia.finalproject.ui.activity.ApplicationContextHolder
 
 @Database(entities = [WeatherForecast::class], version = 1)
