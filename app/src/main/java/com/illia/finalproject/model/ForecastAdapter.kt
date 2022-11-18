@@ -11,6 +11,11 @@ RecyclerView.Adapter<ForecastAdapter.ForecastHolder>() {
 
     private val values = ArrayList<WeatherForecastDTO>()
 
+    public fun clearValues(){
+        values.clear()
+    }
+
+
     public fun setList(list: List<WeatherForecastDTO>){
         values.clear()
         values.addAll(list)

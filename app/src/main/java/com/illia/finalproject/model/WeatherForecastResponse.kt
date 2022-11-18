@@ -1,12 +1,11 @@
 package com.illia.finalproject.model
 
+import android.database.sqlite.SQLiteConstraintException
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.illia.finalproject.data.database.WeatherForecastDatabase
 import java.text.DecimalFormat
 import java.time.Instant
-import java.time.LocalTime
-import java.util.concurrent.TimeUnit
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import kotlin.math.roundToInt
 
 class WeatherForecastResponse(
@@ -19,6 +18,8 @@ class WeatherForecastResponse(
     inner class Weather(
         @SerializedName("dt_txt")
         var dateTime: String,
+        @SerializedName("dt")
+        var dateTimeAsLong: Long,
         @SerializedName("main")
         var mainDescription: MainDescription,
         @SerializedName("weather")
@@ -75,43 +76,40 @@ class WeatherForecastResponse(
         return "Forecast for $city $sb"
     }
 
-    /**
-     * search db?? ->
-     * 2022-11-19
-     * ignore results before next day 00.00
-     * after that parse into full-day info using gson.toJson()
-     * save to db
-     */
 
-    public fun parseIntoDTO(): List<WeatherForecastDTO> {
+    public fun parseResponse(nod :Int): List<WeatherForecastDTO> {
         val values = mutableListOf<WeatherForecastDTO>()
+        val gson = Gson()
+        val weatherForecastDatabase = WeatherForecastDatabase.getInstance()
+        val dao = weatherForecastDatabase.forecastDAO()
+        var itemsCount = 0
 
-        var newDayStartIndex: Int = 0
+        val lat = city!!.coordinates!!.latitude!!
+        val lon = city!!.coordinates!!.longitude!!
+        val cityName = city?.getCityName() ?: "Unknown location"
 
-        while (true) {
-            val record = weatherList.get(newDayStartIndex++)
-            val overallState = record.overallState.get(0).state
-            val dateTime = record.dateTime
-            val image = resolveImage(overallState)
-            values.add(WeatherForecastDTO(overallState, dateTime, image))
-            if (record.dateTime.contains("00:00:00")) {
-                break
+        weatherList.forEach{ x ->
+            val dateAsString = x.dateTime
+            val dateAsLong = x.dateTimeAsLong
+            val overallState = x.overallState.get(0).state
+            val imageUrl = resolveImage(overallState)
+            val serializedEntity = gson.toJson(x)
+
+            val weatherForecastEntity = WeatherForecast(dateAsLong, dateAsString,
+            cityName, overallState, imageUrl, lat, lon, serializedEntity)
+            try {
+                dao.insert(weatherForecastEntity)
+            }catch (ex:SQLiteConstraintException){
+                dao.updateEntities(weatherForecastEntity)
             }
+            if (itemsCount < nod * 8){
+                values.add(WeatherForecastDTO(overallState, x.dateTime, imageUrl, cityName, x.toString()))
+                itemsCount++
         }
-
-        while (true){
-            // ??
-            val record = weatherList.get(newDayStartIndex++)
-            val overallState = record.overallState.get(0).state
-            val dateTime = record.dateTime
-            val image = resolveImage(overallState)
-            values.add(WeatherForecastDTO(overallState, dateTime, image))
-            if (record.dateTime.contains("00:00:00")) {
-                break
-            }
         }
 
         return values
+
     }
 
     fun getForecastForNumberOfDays(nod: Int) {
@@ -133,6 +131,8 @@ class WeatherForecastResponse(
             "light rain" -> "https://s7d2.scene7.com/is/image/TWCNews/0622_n13_light_rain"
             "clear sky" -> "https://media.istockphoto.com/id/1004682020/photo/clouds-in-the-blue-sky.jpg?b=1&s=170667a&w=0&k=20&c=tbGtJQgWtrn6W0PVlD3w3uZ_AZkm3qsYkWgWwITgvtk="
             "light snow" -> "https://ukranews.com/upload/news/2017/01/05/586e37587c319-325_1200.jpg"
+            "snow" -> "https://illustoon.com/photo/7580.png"
+            "moderate rain" -> "https://www.sciline.org/wp-content/uploads/2021/02/cropped-Torrential-Rain-Flooding-and-Climate-Change.jpg"
             else -> "https://static.thenounproject.com/png/119135-200.png"
         }
 
@@ -163,6 +163,13 @@ class WeatherForecastResponse(
             return "(\\d\\d:\\d\\d:\\d\\d)".toRegex()
                 .find(Instant.ofEpochSecond(seconds).toString())?.value
                 ?: "Unresolvable"
+        }
+
+        fun getCityName() : String {
+            if(name == null){
+                return "Unknown location"
+            }
+            return name as String
         }
 
         inner class Coordinates(

@@ -33,7 +33,7 @@ class FullInfoFragment : Fragment(){
         println("full info fragment created")
         val argument = args.wfDTO
 
-        binding.fullDescriptionTextView.setText(argument.timePeriod + " asd" + argument.overallState)
+        binding.fullDescriptionTextView.setText(argument.fullDescription)
         Glide.with(view)
             .load(argument.image)
             .centerCrop()

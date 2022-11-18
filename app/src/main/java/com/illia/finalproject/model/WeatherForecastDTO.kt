@@ -3,9 +3,10 @@ package com.illia.finalproject.model
 import java.io.Serializable
 
 
-class WeatherForecastDTO  (
+data class WeatherForecastDTO  (
     var overallState: String,
     var timePeriod: String,
-    var image: String
-        ): Serializable {
-}
+    var image: String,
+    var city : String?,
+    var fullDescription:String
+        ): Serializable
